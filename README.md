@@ -42,17 +42,17 @@ sudo cp config.env /etc/pingmon/config.env
 sudo cp targets.txt /etc/pingmon/targets.txt
 ```
 
-### 5. แก้ไขไฟล์ config.env และ target.txt
-```
-sudo vi /etc/pingmon/config.env
-```
+### 5. แก้ไขไฟล์ target.txt และ config.env (กรณีใช้ config default ไม่ต้องแก้ไข config.env)
 ```
 sudo vi /etc/pingmon/targets.txt
+```
+```
+sudo vi /etc/pingmon/config.env
 ```
 
 ### 6. ทดสอบ Run
 ```
-pingmon -c /etc/pingmon/config.env
+sudo pingmon -c /etc/pingmon/config.env
 ```
 
 ### 7. ตั้งค่า Cron/Timer
@@ -66,13 +66,15 @@ sudo crontab -e
 ---
 
 ## 📂 โครงสร้าง Log
+```
 /var/log/pingmon/
 ├─ 10.10.1.10/
 │   └─ 2025-09-01.log
 ├─ 10.10.1.11/
 │   └─ 2025-09-01.log
 └─ 10.10.2.20/
-└─ 2025-09-01.log
+    └─ 2025-09-01.log
+```
 
 ---
 
