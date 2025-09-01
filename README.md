@@ -34,7 +34,7 @@ sudo install -m 755 pingmon.sh /usr/local/bin/pingmon
 sudo mkdir -p /etc/pingmon /var/log/pingmon
 ```
 
-### 4. วาง config และ targets (ถ้าไม่มีจะใช้ของ sample)
+### 4. วาง config และ targets
 ```
 sudo cp config.env /etc/pingmon/config.env
 ```
@@ -42,12 +42,20 @@ sudo cp config.env /etc/pingmon/config.env
 sudo cp targets.txt /etc/pingmon/targets.txt
 ```
 
-### 5. ทดสอบ Run
+### 5. แก้ไขไฟล์ config.env และ target.txt
+```
+sudo vi /etc/pingmon/config.env
+```
+```
+sudo vi /etc/pingmon/targets.txt
+```
+
+### 6. ทดสอบ Run
 ```
 pingmon -c /etc/pingmon/config.env
 ```
 
-### 6. ตั้งค่า Cron/Timer
+### 7. ตั้งค่า Cron/Timer
 ```
 sudo crontab -e
 ```
@@ -55,3 +63,43 @@ sudo crontab -e
 ```
 */5 * * * * /usr/local/bin/pingmon -c /etc/pingmon/config.env >/dev/null 2>&1
 ```
+---
+
+## 📂 โครงสร้าง Log
+/var/log/pingmon/
+├─ 10.10.1.10/
+│   └─ 2025-09-01.log
+├─ 10.10.1.11/
+│   └─ 2025-09-01.log
+└─ 10.10.2.20/
+└─ 2025-09-01.log
+
+---
+
+## 📊 ตัวอย่างการตรวจสอบ Log
+
+ดึงบรรทัดล่าสุด 5 บรรทัด ของ IP `10.10.1.10`:
+
+```bash
+tail -n 5 /var/log/pingmon/10.10.1.10/$(date +%F).log
+```
+ตัวอย่างผลลัพธ์:
+```
+2025-09-01T13:37:00+07:00,up,0,0.72,0
+2025-09-01T13:42:00+07:00,down,100,,1
+2025-09-01T13:47:00+07:00,up,0,0.65,0
+2025-09-01T13:52:00+07:00,up,0,0.69,0
+2025-09-01T13:57:00+07:00,up,0,0.71,0
+```
+ฟิลด์แต่ละคอลัมน์
+```
+timestamp,status,loss_percent,avg_rtt_ms,exit_code
+```
+
+•	status = up / down
+
+•	loss_percent = % packet loss
+
+•	avg_rtt_ms = ค่าเฉลี่ยเวลา ping (ms)
+
+•	exit_code = ค่าที่ ping คืนกลับ (0 = สำเร็จ, อื่น ๆ = ล้มเหลว)
