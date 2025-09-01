@@ -59,9 +59,9 @@ sudo pingmon -c /etc/pingmon/config.env
 ```
 sudo crontab -e
 ```
-ตัวอย่าง cron ทุก 5 นาที:
+ตัวอย่าง cron ทุก 1 นาที:
 ```
-*/5 * * * * /usr/local/bin/pingmon -c /etc/pingmon/config.env >/dev/null 2>&1
+* * * * * /usr/local/bin/pingmon -c /etc/pingmon/config.env >/dev/null 2>&1
 ```
 ---
 
